@@ -8,8 +8,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import tacos.Order;
+import tacos.Taco;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -23,6 +25,7 @@ public class JdbcOrderRepository implements OrderRepository {
 
     public JdbcOrderRepository(JdbcTemplate jdbc)
     {
+        log.info("created");
        // this.jdbc = jdbc;
         this.orderInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order").usingGeneratedKeyColumns("id");
         this.orderTacoInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order_Tacos");
@@ -34,22 +37,35 @@ public class JdbcOrderRepository implements OrderRepository {
 
         order.setCreatedAt(LocalDateTime.now());
         long id = saveOrderDetails(order);
+        for(Taco taco: order.getTacos())
+        {
+            saveTacoToOrder(taco,id);
+        }
+
         return order;
     }
 
     private long saveOrderDetails(Order order)
     {
+        log.info(order.toString());
         Map<String,Object> values = objectMapper.convertValue(order,Map.class);
-        for(Map.Entry<String,Object> entry : values.entrySet())
-        {
+        values.put("deliveryName",values.get("name"));
+        values.put("deliveryStreet", values.get("street"));
+        values.put("deliveryCity", values.get("city"));
+        values.put("deliveryState",values.get("state"));
+        values.put("deliveryZip",values.get("zip"));
 
-            log.info(entry.getKey() + " " + entry.getValue().toString());
-
-            //Log.info(entry.getKey() + " " + entry.getValue().toString());
-        }
         values.put("placedAt", order.getCreatedAt());
+        log.info(values.toString());
         long orderId = orderInserter.executeAndReturnKey(values).longValue();
         return orderId;
+    }
+
+    private void saveTacoToOrder(Taco taco, long orderId)
+    {
+        Map<String, Object> values = new HashMap<>();
+        values.put("tacoOrder", orderId);
+        values.put("taco", taco.getId());
     }
 
 

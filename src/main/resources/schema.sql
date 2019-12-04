@@ -32,5 +32,6 @@ create table if not exists Taco_Order_Tacos (
                                                 tacoOrder bigint not null,
                                                 taco bigint not null,
                                                 foreign key (tacoOrder) references Taco_Order(id),
-                                                foreign key (taco) references Taco(id)
+                                                foreign key (taco) references Taco(id),
+                                                primary key (tacoOrder,taco)
 );
