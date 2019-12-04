@@ -8,9 +8,11 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class Order {
 
     @NotBlank(message = "Name is required")
@@ -40,5 +42,12 @@ public class Order {
     private Long id;
 
     private LocalDateTime createdAt;
+
+    private List<Taco> tacos = new ArrayList<>();
+
+    public void addDesign(Taco design)
+    {
+        this.tacos.add(design);
+    }
 
 }

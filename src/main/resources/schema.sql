@@ -9,10 +9,11 @@ create table if not exists Taco (
                                     createdAt timestamp not null
 );
 create table if not exists Taco_Ingredients (
-                                                taco bigint primary key,
+                                                taco bigint,
                                                 ingredient varchar(4) not null,
                                                 foreign key (taco) references Taco(id),
-                                                foreign key (ingredient) references Ingredient(id)
+                                                foreign key (ingredient) references Ingredient(id),
+                                                primary key (taco,ingredient)
 );
 
 create table if not exists Taco_Order (
