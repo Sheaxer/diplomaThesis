@@ -10,6 +10,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import tacos.Order;
 import tacos.data.JdbcOrderRepository;
 import tacos.data.OrderRepository;
+import tacos.data.RepositoryOrder;
 
 import javax.validation.Valid;
 
@@ -19,10 +20,11 @@ import javax.validation.Valid;
 @RequestMapping("/orders")
 public class OrderController {
 
-    private OrderRepository orderRepo;
+    //private OrderRepository orderRepo;
+    private RepositoryOrder orderRepo;
 
     @Autowired
-    public OrderController(OrderRepository orderRepo)
+    public OrderController(RepositoryOrder orderRepo)
     {
         this.orderRepo = orderRepo;
     }

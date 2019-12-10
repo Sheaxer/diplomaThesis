@@ -10,6 +10,8 @@ import tacos.Ingredient;
 import tacos.Order;
 import tacos.Taco;
 import tacos.data.IngredientRepository;
+import tacos.data.RepositoryIngredient;
+import tacos.data.RepositoryTaco;
 import tacos.data.TacoRepository;
 
 import javax.validation.Valid;
@@ -24,11 +26,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/design")
 public class DesignTacoController {
 
-    private final IngredientRepository ingredientRepo;
-    private final TacoRepository designRepo;
+    //private final IngredientRepository ingredientRepo;
+    //private final TacoRepository designRepo;
+
+    private final RepositoryIngredient ingredientRepo;
+    private final RepositoryTaco designRepo;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository designRepo)
+    public DesignTacoController(RepositoryIngredient ingredientRepo, RepositoryTaco designRepo)
     {
         this.ingredientRepo = ingredientRepo;
         this.designRepo = designRepo;
